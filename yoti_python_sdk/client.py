@@ -25,11 +25,14 @@ DEFAULT_HTTP_CLIENT_ERRORS = {"default": UNKNOWN_HTTP_ERROR}
 
 
 class Client(object):
-    def __init__(self, sdk_id=None, pem_file_path=None, request_handler=None):
+    def __init__(self, sdk_id=None, pem_file_path=None, pem_string=None, request_handler=None):
         self.sdk_id = sdk_id or environ.get("YOTI_CLIENT_SDK_ID")
         pem_file_path_env = environ.get("YOTI_KEY_FILE_PATH", pem_file_path)
 
-        if pem_file_path is not None:
+        # If a PEM string is provided, use it directly
+        if pem_string is not None:
+            self.__crypto = Crypto.read_pem_string(pem_string)
+        elif pem_file_path is not None:
             error_source = "argument specified in Client()"
             self.__crypto = Crypto.read_pem_file(pem_file_path, error_source)
         elif pem_file_path_env is not None:
