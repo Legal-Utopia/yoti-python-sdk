@@ -31,7 +31,7 @@ class Client(object):
 
         # If a PEM string is provided, use it directly
         if pem_string is not None:
-            self.__crypto = Crypto.read_pem_string(pem_string)
+            self.__crypto = pem_string.encode('utf-8')
         elif pem_file_path is not None:
             error_source = "argument specified in Client()"
             self.__crypto = Crypto.read_pem_file(pem_file_path, error_source)
