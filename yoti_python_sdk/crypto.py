@@ -85,3 +85,8 @@ class Crypto:
             )
             exception = "{0}: {1}".format(type(exc).__name__, exc)
             raise RuntimeError("{0}: {1}".format(error, exception))
+        
+    @staticmethod  
+    def read_pem_string(pem_string):
+        pem_bytes = pem_string.encode('utf-8')
+        return Crypto(pem_bytes.strip())
